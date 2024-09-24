@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss IT Forum(s) - 25 & 26 September 2024 - Palexpo Geneva</title>
+    <meta name="description" content="The Swiss event 100% dedicated to software and IT solutions for the enterprise | a FORUM + an EXHIBITION | Cybersecurity, Data, Cloud, Storage, GreenIT, Digital Transformation, Devops, Infrastructures, Networks ...">
+    
+    <!-- CSS for styling and effects -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Prevent scrolling to keep video in place */
+        }
+        .header-overlay {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Full window height */
+            overflow: hidden;
+        }
+        .background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1; /* Behind other content */
+        }
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+            z-index: 1; /* Above video */
+        }
+        .overlay-content h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .overlay-content p {
+            font-size: 1.2em;
+        }
+        .cta-button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .overlay-content h1 {
+                font-size: 2em;
+            }
+            .overlay-content p {
+                font-size: 1em;
+            }
+            .cta-button {
+                padding: 8px 20px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Modern Widget Styling */
+        .widget-container {
+            position: fixed;
+            bottom: 0;
+            right: 20px;
+            width: 400px;
+            height: 700px;
+            z-index: 9999;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(calc(100% - 50px)); /* Keep header visible when closed */
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0; /* Start hidden */
+        }
+
+        .widget-header {
+            background-color: #000;
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            z-index: 1; /* Ensure the header is above the iframe */
+        }
+
+        .widget-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #000, #fff);
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .widget-header span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .widget-container iframe {
+            width: 100%;
+            height: calc(100% - 50px); /* Adjust height to accommodate the header */
+            border: none;
+        }
+
+        /* Hover area to show chat */
+        .hover-area {
+            position: fixed;
+            bottom: 0;
+            right: 20px; /* Adjusted for spacing from the edge */
+            width: 60px; /* Adjusted width for better usability */
+            height: 60px; /* Adjusted height for better usability */
+            z-index: 9998;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            border-radius: 30px; /* Circular shape */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .hover-area:hover {
+            background-color: rgba(0, 0, 0, 0.8); /* Darker on hover */
+        }
+        .hover-area:before {
+            content: 'Chat'; /* Label for the hover area */
+            color: white;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-overlay">
+        <video class="background-video" autoplay loop muted>
+            <source src="https://www.swiss-it-forums.tech/landing-homepage.mp4" type="video/mp4">
+        </video>
+
+        <!-- Overlay Content with CTA Button -->
+        <div class="overlay-content">
+            <h1>Swiss IT Forum(s)</h1>
+            <p>25 & 26 September 2024 - Palexpo Geneva</p>
+            <button class="cta-button">Learn More</button>
+        </div>
+    </div>
+
+    <!-- Modern Widget Container -->
+    <div class="widget-container" id="chat-widget">
+        <!-- Custom Header -->
+        <div class="widget-header" id="chat-header">
+            <span>Copilot Chat</span>
+        </div>
+        <iframe src="https://copilotstudio.microsoft.com/environments/Default-07390405-6169-4151-8710-e72a6238eba5/bots/crbf4_swissItForumAgent/webchat?__version__=2"></iframe>
+    </div>
+
+    <!-- Hover Area -->
+    <div class="hover-area" id="hover-area"></div>
+
+    <!-- JavaScript for further effects -->
+    <script>
+        const chatWidget = document.getElementById('chat-widget');
+        const chatHeader = document.getElementById('chat-header');
+        let chatActive = false;
+
+        // Show or hide chat on header click
+        chatHeader.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent click from bubbling up to the body
+            if (chatWidget.style.transform === 'translateY(0px)') {
+                chatWidget.style.transform = 'translateY(calc(100% - 50px))';
+                chatWidget.style.opacity = '0'; // Fade out
+            } else {
+                chatWidget.style.transform = 'translateY(0px)';
+                chatWidget.style.opacity = '1'; // Fade in
+            }
+        });
+
+        // Prevent closing the chat when clicking inside the widget
+        chatWidget.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent click from bubbling up to the body
+        });
+
+        // Close the chat widget when clicking outside of it
+        document.body.addEventListener('click', () => {
+            chatWidget.style.transform = 'translateY(calc(100% - 50px))';
+            chatWidget.style.opacity = '0'; // Fade out
+        });
+
+        // Show chat widget when hovering over hover area
+        const hoverArea = document.getElementById('hover-area');
+        hoverArea.addEventListener('mouseenter', () => {
+            chatWidget.style.transform = 'translateY(0px)';
+            chatWidget.style.opacity = '1'; // Fade in
+        });
+        hoverArea.addEventListener('mouseleave', () => {
+            if (chatWidget.style.transform !== 'translateY(0px)') {
+                chatWidget.style.transform = 'translateY(calc(100% - 50px))';
+                chatWidget.style.opacity = '0'; // Fade out
+            }
+        });
+    </script>
+
+</body>
+</html>
